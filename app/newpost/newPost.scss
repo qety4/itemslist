@@ -1,0 +1,30 @@
+.new-post{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .new-post__form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 50%;
+        height: 60%;
+        box-sizing: content-box;
+        border-radius: 3rem;
+        padding-inline: 3rem;
+        background-color: rgba(0, 0, 0, 0.239);
+        border: black solid 0.1px;
+
+        .post-description{
+            height: 100%;
+            width: 100%;
+        }
+        .main-category{
+            label{
+            margin-right: 0.5rem;
+            }
+
+
+        }
+    }
+}
