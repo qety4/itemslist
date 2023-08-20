@@ -1,0 +1,43 @@
+.post{
+ display: flex;
+ flex-direction: column;
+ margin: 3% 17%;
+ .post__categories{
+    position: absolute;
+    top: 3%;
+    left: 10%;
+    letter-spacing: 0.1rem;
+    .post__mainCategory{
+        font-size: 230%;
+        font-weight: 400;
+    }
+    .post__category{
+        margin-left: 0.3rem;
+    }
+ }
+ .post__title{
+    font-size: 190%;
+    margin: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.07rem;
+ }
+ .post_description{
+    font-size: 130%;
+    letter-spacing: 0.01rem;
+    margin-bottom: 0.1rem;
+ }
+ .post__contactInfo{
+    margin-left: 0.1rem;
+ }
+}
+.error-message{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    height:50vh;
+    p{
+        font-size: 200%;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: greenyellow;
+    }
+}

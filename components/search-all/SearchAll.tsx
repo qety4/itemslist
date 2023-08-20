@@ -9,7 +9,7 @@ function SearchAll() {
     return (
         <>
             <form className="search__form" action={(formData)=>submitSearch(formData,router)} >
-                <label htmlFor="search__form__input">Search Marketplace</label>
+                <label className='search__form__label' htmlFor="search__form__input">Search Marketplace</label>
                 <input id="search__form__input" name="searchInput" type="text" placeholder='search all' />
             </form>
         </>

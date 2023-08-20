@@ -1,0 +1,37 @@
+.all-posts {
+    display: flex;
+    flex-direction: column;
+
+    .all-posts__title {
+        display: flex;
+        justify-content: center;
+        margin: 1.3rem;
+        font-size: 180%;
+        font-family: 'Nunito Sans';
+        letter-spacing: 0.38rem;
+    }
+    .all-posts__posts{
+        margin-left: 3%;
+    }
+
+    .last-post {
+        background-color: red;
+    }
+    .to-all-products{
+        text-align: center;
+        margin: 1rem 0 ;
+        .to-all-products__btn{
+            box-sizing: content-box;
+            text-decoration: none;
+            color: black;
+            font-size: 180%;
+            padding: 0.4rem 1rem;
+            border: black 0.1px solid;
+            border-radius: 0.8rem;
+            &:hover{
+                color: blue;
+                background-color: rgba(229, 229, 229, 0.178);
+            }
+        }
+    }
+}

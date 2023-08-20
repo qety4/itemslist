@@ -1,9 +1,36 @@
+'use server'
+import axios from 'axios'
 import React from 'react'
-
-function Post({params}:{params:{id:string}}) {
-  // const res = await fetch('')
+import './post.scss'
+async function Post({ params }: { params: { postId: string } }) {
+  const id = params.postId
+  const res = await axios.post('http://localhost:3000/api/getPost', id)
+  const post = res.data.body
   return (
-    <div>page</div>
+    <>
+      {
+        post != undefined ?
+          <div className='post'>
+            <div className='post__categories'>
+              <h2 className='post__mainCategory'>{post.mainCategory}</h2>
+              <h3 className='post__category'>{post.category}</h3>
+            </div>
+            <p className='post__title'>{post.title}</p>
+            <p className='post_description'>
+              {post.description}
+            </p>
+            <p className='post__contactInfo'>
+              Contact info <b>{post.email}</b>
+            </p>
+          </div>
+          :
+          <div className='error-message'>
+            <p>
+              error 404: 'not found :('
+            </p>
+          </div>
+      }
+    </>
   )
 }
 

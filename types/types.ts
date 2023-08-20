@@ -1,13 +1,18 @@
+import React from "react"
+
 export type Post = {
     id?:string,
-    mainCategory:string,
     title: string,
-    category: string,
     description: string,
+    mainCategory:string,
+    category: string,
     email: string,
-    createdAt?: Date
 }
 export type SearchProps={
     q:string,
-    page:string,
+}
+export type categorySelectProps = {
+    mainCategory:string,
+    categories: string[],
+    handleChange: (e:  React.ChangeEvent<HTMLSelectElement>)=> void
 }

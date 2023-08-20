@@ -4,7 +4,6 @@
 import React from 'react'
 import './paginationControls.styles.scss'
 import { useRouter, useSearchParams } from 'next/navigation'
-useSearchParams
 
 function PaginationControls() {
   const router = useRouter()
