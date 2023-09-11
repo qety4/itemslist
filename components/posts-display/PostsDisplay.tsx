@@ -1,9 +1,9 @@
 'use client'
 
-import { SearchProps, Post } from '@/types/types'
+import { SearchProps, Post } from '@/libs/types/list-types'
 import axios from 'axios'
 import { useIntersection } from '@mantine/hooks'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PostPreview from '../post-preview/PostPreview'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
@@ -12,13 +12,15 @@ import Link from 'next/link'
 import './postsDisplay.scss'
 
 function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
+
   const lastPostRef = useRef<HTMLElement>(null);
   const searchParams = useSearchParams()
   const search = searchParams.get('q') as string
+
   console.log('search query', search)
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
-    threshold: 1,
+    threshold: 0.1,
   })
 
 
@@ -30,7 +32,15 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
     },
     {
       getNextPageParam: (_, pages) => {
+        if(pages.length){
+          if(pages[pages.length-1] !== pages[pages.length-2]){
+            return pages.length+1
+          }else{
+            return
+          }
+        }
         return pages.length + 1
+        
       },
       initialData: {
         pages: [initialPosts],
@@ -40,13 +50,14 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
     }
   )
   if (entry?.isIntersecting) fetchNextPage()
-  console.log(data)
-  const posts = data?.pages.flatMap(post => post) ?? initialPosts
-  const filteredPosts = search ?
+  console.log('data fetched',data)
+
+  const posts:Post[] = data?.pages.flatMap(post => post) ?? initialPosts
+
+  const filteredPosts:Post[]= search ?
     filterPosts(posts, search)
     :
     posts
-
 
   return (
     <main>
@@ -59,7 +70,7 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
             </h1>
           </div>
           {
-            filteredPosts?.map((post, index) => {
+            filteredPosts?.map((post,index) => {
               if (index == filteredPosts.length - 1) {
                 return (
                   <div key={index} className="last-post" ref={ref}>

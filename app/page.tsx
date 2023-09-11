@@ -13,7 +13,7 @@ function HomePage() {
         <h3 className='products__title logo-title'>itemslist</h3>
         <div className='search__links'>
           <SearchAll />
-          <div className='new-post'>
+          <div className='new-post-link'>
             <Link href="newpost" >create post</Link>
           </div>
           <div className='search__all-posts'>
@@ -30,8 +30,8 @@ function HomePage() {
           </h3>
           <div className='products__list'>
             {
-              items.map((item, index) =>
-                <Link className='to-category' href={`posts?q=${item}`} key={index}>
+              items.map((item) =>
+                <Link className='to-category' href={`posts?q=${item}`} key={item}>
                   {item}
                 </Link>
               )
@@ -46,8 +46,8 @@ function HomePage() {
           </h3>
           <div className='products__list'>
             {
-              services.map((item, index) =>
-                <Link key={index} className='to-category' href={`posts?q=${item}`} >
+              services.map((item) =>
+                <Link key={item} className='to-category' href={`posts?q=${item}`} >
                   {item}
                 </Link>
               )

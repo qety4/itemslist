@@ -2,10 +2,11 @@
 
 import React, { useState } from 'react'
 import './newPost.scss'
-import { Post } from '../../types/types'
-import axios from 'axios'
-import { categorySelectProps } from '../../types/types'
+import { Post, categorySelectProps } from '@/libs/types/list-types'
+import axios, { AxiosError } from 'axios'
 import CategorySelect from '@/components/category-select/CategorySelect'
+import { PostValidator } from '@/libs/validators/postValidator'
+import { z } from 'zod'
 
 let defaultFormFields = {
     mainCategory: '',
@@ -18,6 +19,8 @@ let defaultFormFields = {
 function NewPost() {
     const [formFields, setFormFields] = useState<Post>(defaultFormFields)
     const [postAdded, setPostAdded] = useState<Boolean>(false)
+    const [error, setError] = useState<string | Error>('')
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         const { name, value } = event.target
         setFormFields({ ...formFields, [name]: value })
@@ -35,19 +38,32 @@ function NewPost() {
         handleChange: handleChange
     }
 
-    const submit = (event: React.FormEvent<HTMLFormElement>) => {
+    const submit = async (event: React.FormEvent<HTMLFormElement>) => {
         try {
             const target = event.target as HTMLFormElement
             event.preventDefault()
             console.log(event)
-            axios.post('http://localhost:3000/api/createPost', formFields)
+            PostValidator.parse(formFields)
+            await axios.post('http://localhost:3000/api/createPost', formFields)
             setFormFields(defaultFormFields)
             target.reset()
             setPostAdded(true)
-        } catch {
-            alert('error adding post')
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                console.log('error z', error)
+                setError('invalid input')
+                return
+            }
+            if (error instanceof AxiosError) {
+                console.log('error a', error)
+                setError(error.response?.data)
+                return
+            }
+            console.log('error', error)
+            setError(error as Error)
         }
     }
+
 
     return (
         <>
@@ -59,13 +75,24 @@ function NewPost() {
                 <div className='new-post'>
                     <form onSubmit={(e) => submit(e)} className='new-post__form'>
                         <h1>Create Post</h1>
+
                         <div className='main-category'>
-                            <p>Main Category</p>
-                            <label htmlFor="">SERVICES<input onChange={handleChange} value='services' name='mainCategory' required type="radio" /></label>
-                            <label htmlFor="">ITEMS<input onChange={handleChange} value='items' name='mainCategory' required type="radio" /></label>
+                            <h2>Main Category</h2>
+                            <label htmlFor="">SERVICES
+                                <input onChange={handleChange} value='services' name='mainCategory' type="radio" />
+                            </label>
+
+                            <label htmlFor="">ITEMS
+                                <input onChange={handleChange} value='items' name='mainCategory' type="radio" />
+                            </label>
                         </div>
                         <div className='sub-category'>
-                            <input type="text" name='title' onChange={handleChange} required placeholder='title' />
+                            <input type="text" name='title' className='post__title' onChange={handleChange} placeholder='title' />
+                            {formFields.mainCategory == '' &&
+                                <select className='sub-category' name="" id="">
+                                    <option disabled value="">category</option>
+                                </select>
+                            }
                             {
                                 formFields.mainCategory == 'services' &&
                                 <CategorySelect categoriesArr={SERVICES} />
@@ -75,15 +102,20 @@ function NewPost() {
                                 <CategorySelect categoriesArr={ITEMS} />
                             }
                         </div>
+
                         <div className='post-description' >
-                            <textarea placeholder='post description' className='post-description__input' onChange={handleChange} required name="description" />
+                            <textarea placeholder='post description' className='description__input' onChange={handleChange}
+                                name="description" />
                         </div>
-                        <div className='contact information'>
+
+                        <div className='contact-information'>
                             <label htmlFor="">Your Contact Information</label>
-                            <input name="email" onChange={handleChange} placeholder="email" required type="email" />
+                            <input name="email" className='contact__email' onChange={handleChange} placeholder="email"
+                                type="email" />
                         </div>
-                        <button>create post</button>
+                        <button className='create-post-btn'>create post</button>
                     </form>
+                    <p className='error'>{`${error}`}</p>
                 </div>
             }
         </>

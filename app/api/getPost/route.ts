@@ -1,4 +1,4 @@
-import prisma from "@/prisma/client"
+import prisma from "@/libs/prisma/client"
 
 export async function POST(req:Request,res:Response){
     try{

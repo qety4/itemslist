@@ -1,6 +1,6 @@
 'use server'
 
-import prisma from "@/prisma/client"
+import prisma from "@/libs/prisma/client"
 
 
 export async function POST(req: Request,res: Response){
@@ -11,6 +11,7 @@ export async function POST(req: Request,res: Response){
             skip:skipPosts,
             take:5,
         })
+        console.log('fetching posts',posts)
         return new Response(JSON.stringify({
             body:posts
         }))
