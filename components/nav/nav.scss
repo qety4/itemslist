@@ -7,7 +7,8 @@
     // justify-content: space-between;
     // width: 25%;
     .nav__logo {
-        font-size: 300%;
+
+        font-size: clamp(2.3rem,3vw,300%);
         color: rgba(20, 20, 20, 0.899);
         font-family: 'ADLaM Display';
         font-weight: 400;

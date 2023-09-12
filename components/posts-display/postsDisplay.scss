@@ -7,29 +7,34 @@
         justify-content: center;
         margin: 1.3rem;
         margin-bottom: 0.9rem;
-        font-size: 138%;
+        // font-size: 138%;
+        font-size: clamp(1rem, 3vw, 138%);
         font-family: 'Nunito Sans';
         letter-spacing: 0.28rem;
     }
-    .all-posts__posts{
+
+    .all-posts__posts {
         margin: 0 0.1rem 0 0.7rem;
     }
 
     .last-post {
         background-color: red;
     }
-    .to-all-products{
+
+    .to-all-products {
         text-align: center;
-        margin: 1rem 0 ;
-        .to-all-products__btn{
+        margin: 1rem 0;
+
+        .to-all-products__btn {
             box-sizing: content-box;
             text-decoration: none;
             color: black;
-            font-size: 180%;
+            font-size: clamp(1.1rem, 3vw, 148%);
             padding: 0.4rem 1rem;
             border: black 0.1px solid;
             border-radius: 0.8rem;
-            &:hover{
+
+            &:hover {
                 color: blue;
                 background-color: rgba(229, 229, 229, 0.178);
             }

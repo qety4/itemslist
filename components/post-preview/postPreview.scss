@@ -1,13 +1,13 @@
-.postPreview{
+.postPreview {
 
-    margin-bottom:1.3rem ;
+    margin-bottom: 1.3rem;
     border-radius: 10px 2px 2px 10px;
-    padding: 0.3rem 1rem 1rem 1rem ;
+    padding: 0.3rem 1rem 1rem 1rem;
     box-shadow: 3.8px 3px 8px rgba(0, 0, 0, 0.101);
     font-family: 'Work Sans';
     position: relative;
-    
-    .postPreview-header{
+
+    .postPreview-header {
         display: grid;
         grid-template-columns: 20% 80%;
         width: 100%;
@@ -17,45 +17,54 @@
         align-items: center;
     }
 
-    .postPreview__categories{
+    .postPreview__categories {
         margin-top: 0.3rem;
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding:0 0 0 0.8rem ;
-        .postPreview__mainCategory{
+        padding: 0 0 0 0.8rem;
+
+        .postPreview__mainCategory {
+            font-size: clamp(1rem, 3vw, 118%);
             font-weight: 300;
             letter-spacing: 1.3px;
             text-shadow: 0.3px 1px 3px rgba(0, 0, 0, 0.216);
         }
-        .postPreview__category{
+
+        .postPreview__category {
+            font-size: clamp(1rem, 3vw, 118%);
             font-weight: 300;
             text-shadow: 0.8px 1px 8px rgba(0, 0, 0, 0.074);
         }
-        
+
     }
 
-    .postPreview__title{
+    .postPreview__title {
         width: 100%;
+        font-size: clamp(1.03rem, 3vw, 155%);
         margin: 0 0 0 9.3%;
-        font-size: 155%;
         font-weight: 400;
         text-shadow: 0.8px 0.8px 3px rgba(0, 0, 0, 0.131);
     }
 
-    .postPreview__description{
+    .postPreview__description {
         margin: 0rem 0 0rem 0.8rem;
         margin-bottom: 0.7rem;
-        font-size: 125%;
+        font-size: clamp(1rem,3vw,125%);
         font-weight: 400;
         text-shadow: 0.8px 0.8px 3px rgba(0, 0, 0, 0.131);
     }
 
-    .postPreview__contactInfo{
+    .postPreview__contactInfo {
         margin: 0rem 0 0 1.3rem;
-        font-size: 118%;
         color: rgba(0, 0, 0, 0.843);
+        font-size: clamp(1rem,3vw,118%);
+
     }
-    
+    @media (max-width:50rem) {
+        .postPreview__title{
+            margin: 0 0 0 3%;
+        }
+    }
 
 }

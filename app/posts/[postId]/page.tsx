@@ -10,24 +10,26 @@ async function Post({ params }: { params: { postId: string } }) {
   const post = res.data.body
 
   return post ? (
+    <div className='post-container'>
+      <div className='post'>
 
-    <div className='post'>
-      <div className='post-header'>
-        <div className='post__categories'>
-          <h2 className='post__mainCategory'>{post.mainCategory}</h2>
-          <h3 className='post__category'>{post.category}</h3>
+        <div className='post__header'>
+          <div className='post__categories'>
+            <h2 className='post__mainCategory'>{post.mainCategory}</h2>
+            <h3 className='post__category'>{post.category}</h3>
+          </div>
+          <p className='post__title'>{post.title}</p>
         </div>
-        <p className='post__title'>{post.title}</p>
+
+        <p className='post_description'>
+          {post.description}
+        </p>
+
+        <p className='post__contactInfo'>
+          Contact info <b>{post.email}</b>
+        </p>
+
       </div>
-
-      <p className='post_description'>
-        {post.description}
-      </p>
-
-      <p className='post__contactInfo'>
-        Contact info <b>{post.email}</b>
-      </p>
-      
     </div>
 
   ) : (
