@@ -13,7 +13,7 @@ import './postsDisplay.scss'
 
 function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
 
-  const lastPostRef = useRef<HTMLElement>(null);
+  let lastPostRef = useRef<HTMLElement | null>(null);
   const searchParams = useSearchParams()
   const search = searchParams.get('q') as string
 
@@ -53,6 +53,8 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
   console.log('data fetched',data)
 
   const posts:Post[] = data?.pages.flatMap(post => post) ?? initialPosts
+  console.log('posts',posts)
+  const isNewPosts = (data?.pages.at(data.pages?.length-1).length === 0) 
 
   const filteredPosts:Post[]= search ?
     filterPosts(posts, search)
@@ -99,7 +101,7 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
           <div className='all-posts__posts'>
             {
               filteredPosts?.map((post, index) => {
-                if (index === filteredPosts.length - 1) {
+                if (index === filteredPosts.length - 1 && !isNewPosts) {
                   return (
                     <div key={index} className="last-post" ref={ref}>
                       <PostPreview post={post} />
