@@ -17,7 +17,7 @@ let defaultFormFields = {
 }
 
 function NewPost() {
-    const [formFields, setFormFields] = useState<Post>(defaultFormFields)
+    const [formFields, setFormFields] = useState<typeof defaultFormFields>(defaultFormFields)
     const [postAdded, setPostAdded] = useState<Boolean>(false)
     const [error, setError] = useState<string | Error>('')
 
@@ -32,17 +32,18 @@ function NewPost() {
         categories: ['computers/etc.', 'transport', 'clothes', 'other'],
         handleChange: handleChange
     }
+
     const SERVICES: categorySelectProps = {
         mainCategory: 'services',
         categories: ['education', 'automotive', 'labor', 'event'],
         handleChange: handleChange
     }
 
+
     const submit = async (event: React.FormEvent<HTMLFormElement>) => {
         try {
             const target = event.target as HTMLFormElement
             event.preventDefault()
-            console.log(event)
             PostValidator.parse(formFields)
             await axios.post('http://localhost:3000/api/createPost', formFields)
             setFormFields(defaultFormFields)
@@ -50,76 +51,75 @@ function NewPost() {
             setPostAdded(true)
         } catch (error) {
             if (error instanceof z.ZodError) {
-                console.log('error z', error)
                 setError('invalid input')
                 return
             }
             if (error instanceof AxiosError) {
-                console.log('error a', error)
                 setError(error.response?.data)
                 return
             }
-            console.log('error', error)
             setError(error as Error)
         }
     }
 
 
-    return (
-        <>
-            {postAdded ?
-                <div>
-                    <p>Post Succesfully Added !</p>
-                </div>
-                :
-                <div className='new-post'>
-                    <form onSubmit={(e) => submit(e)} className='new-post__form'>
-                        <h1>Create Post</h1>
+    return postAdded ?
 
-                        <div className='main-category'>
-                            <h2>Main Category</h2>
-                            <label htmlFor="">SERVICES
-                                <input onChange={handleChange} value='services' name='mainCategory' type="radio" />
-                            </label>
+        (
+            <div>
+                <p>Post Succesfully Added ! <br />
+                {`you won't see it, because i don't want anyone to add anything bad`}
+                </p>
+            </div>
+        )
+        :
+        (
+            <div className='new-post'>
+                <form onSubmit={(e) => submit(e)} className='new-post__form'>
+                    <h1>Create Post</h1>
 
-                            <label htmlFor="">ITEMS
-                                <input onChange={handleChange} value='items' name='mainCategory' type="radio" />
-                            </label>
-                        </div>
-                        <div className='sub-category'>
-                            <input type="text" name='title' className='post__title' onChange={handleChange} placeholder='title' />
-                            {formFields.mainCategory == '' &&
-                                <select className='sub-category' name="" id="">
-                                    <option disabled value="">category</option>
-                                </select>
-                            }
-                            {
-                                formFields.mainCategory == 'services' &&
-                                <CategorySelect categoriesArr={SERVICES} />
-                            }
-                            {
-                                formFields.mainCategory == 'items' &&
-                                <CategorySelect categoriesArr={ITEMS} />
-                            }
-                        </div>
+                    <div className='main-category'>
+                        <h2>Main Category</h2>
+                        <label htmlFor="">SERVICES
+                            <input onChange={handleChange} value='services' name='mainCategory' type="radio" />
+                        </label>
 
-                        <div className='post-description' >
-                            <textarea placeholder='post description' className='description__input' onChange={handleChange}
-                                name="description" />
-                        </div>
+                        <label htmlFor="">ITEMS
+                            <input onChange={handleChange} value='items' name='mainCategory' type="radio" />
+                        </label>
+                    </div>
+                    <div className='sub-category'>
+                        <input type="text" name='title' className='post__title' onChange={handleChange} placeholder='title' />
+                        {formFields.mainCategory == '' &&
+                            <select className='sub-category' name="" id="">
+                                <option disabled value="">category</option>
+                            </select>
+                        }
+                        {
+                            formFields.mainCategory == 'services' &&
+                            <CategorySelect categoriesArr={SERVICES} />
+                        }
+                        {
+                            formFields.mainCategory == 'items' &&
+                            <CategorySelect categoriesArr={ITEMS} />
+                        }
+                    </div>
 
-                        <div className='contact-information'>
-                            <label htmlFor="">Your Contact Information</label>
-                            <input name="email" className='contact__email' onChange={handleChange} placeholder="email"
-                                type="email" />
-                        </div>
-                        <button className='create-post-btn'>create post</button>
-                    </form>
-                    <p className='error'>{`${error}`}</p>
-                </div>
-            }
-        </>
-    )
+                    <div className='post-description' >
+                        <textarea placeholder='post description' className='description__input' onChange={handleChange}
+                            name="description" />
+                    </div>
+
+                    <div className='contact-information'>
+                        <label htmlFor="">Your Contact Information</label>
+                        <input name="email" className='contact__email' onChange={handleChange} placeholder="email"
+                            type="email" />
+                    </div>
+                    <button className='create-post-btn'>create post</button>
+                </form>
+                <p className='error'>{`${error}`}</p>
+            </div>
+        )
 }
 
 export default NewPost

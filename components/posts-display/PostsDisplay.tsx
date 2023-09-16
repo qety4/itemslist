@@ -1,12 +1,12 @@
 'use client'
 
-import { SearchProps, Post } from '@/libs/types/list-types'
+import { Post } from '@/libs/types/list-types'
 import axios from 'axios'
 import { useIntersection } from '@mantine/hooks'
 import React, { useEffect, useRef, useState } from 'react'
 import PostPreview from '../post-preview/PostPreview'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'next/navigation'
+import { notFound, useSearchParams } from 'next/navigation'
 import { filterPosts } from '@/utils/searchFilter'
 import Link from 'next/link'
 import './postsDisplay.scss'
@@ -32,15 +32,15 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
     },
     {
       getNextPageParam: (_, pages) => {
-        if(pages.length){
-          if(pages[pages.length-1] !== pages[pages.length-2]){
-            return pages.length+1
-          }else{
+        if (pages.length) {
+          if (pages[pages.length - 1] !== pages[pages.length - 2]) {
+            return pages.length + 1
+          } else {
             return
           }
         }
         return pages.length + 1
-        
+
       },
       initialData: {
         pages: [initialPosts],
@@ -49,19 +49,19 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
 
     }
   )
+
   if (entry?.isIntersecting) fetchNextPage()
-  console.log('data fetched',data)
+  console.log('data fetched', data)
+  const posts: Post[] = data?.pages.flatMap(post => post) ?? initialPosts
+  const isNewPosts = (data?.pages.at(data.pages?.length - 1)?.length === 0)
 
-  const posts:Post[] = data?.pages.flatMap(post => post) ?? initialPosts
-  console.log('posts',posts)
-  const isNewPosts = (data?.pages.at(data.pages?.length-1).length === 0) 
-
-  const filteredPosts:Post[]= search ?
+  const filteredPosts: Post[] = search ?
     filterPosts(posts, search)
     :
     posts
 
-  return (
+  console.log('posts', posts)
+  return posts.at(0) && (
     <main>
 
       {search ?
@@ -72,8 +72,8 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
             </h1>
           </div>
           {
-            filteredPosts?.map((post,index) => {
-              if (index == filteredPosts.length - 1) {
+            filteredPosts?.map((post, index) => {
+              if (index == filteredPosts.length - 1 && !isNewPosts) {
                 return (
                   <div key={index} className="last-post" ref={ref}>
                     <PostPreview post={post} />

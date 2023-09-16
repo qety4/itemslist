@@ -4,8 +4,8 @@ export type Post = {
     id?:string,
     title: string,
     description: string,
-    mainCategory:string,
-    category: string,
+    mainCategory: 'items' | 'services',
+    category: 'education' | 'automotive'| 'labor' | 'event' | 'computers/etc' | 'transport' | 'clothes' | 'other',
     email: string,
 }
 export type SearchProps={
