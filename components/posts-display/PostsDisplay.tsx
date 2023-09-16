@@ -26,7 +26,7 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['infinite-scroll'],
     async ({ pageParam = 1 }) => {
-      const res= await axios.post('/api/getPosts', '1')
+      const res= await axios.post('/api/getPosts', pageParam)
       return res.data.body
     },
     {
@@ -51,7 +51,6 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
 
   if (entry?.isIntersecting) fetchNextPage()
   const posts: Post[] = data?.pages.flatMap(post => post) ?? initialPosts
-  const isNewPosts = (data?.pages.at(data.pages?.length - 1)?.length === 0)
 
   const filteredPosts: Post[] = search ?
     filterPosts(posts, search)
@@ -70,9 +69,9 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
           </div>
           {
             filteredPosts?.map((post, index) => {
-              if (index == filteredPosts.length - 1 && !isNewPosts) {
+              if (index == filteredPosts.length - 1 && !(data?.pages[data.pages.length - 1].length === 0)) {
                 return (
-                  <div key={index} className="last-post" ref={ref}>
+                  <div key={index} className="last-post" ref={ ref }>
                     <PostPreview post={post} />
                   </div>
                 )
@@ -98,7 +97,7 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
           <div className='all-posts__posts'>
             {
               filteredPosts?.map((post, index) => {
-                if (index === filteredPosts.length - 1 && !isNewPosts) {
+                if (index === filteredPosts.length - 1 && !(data?.pages[data.pages.length - 1].length === 0)) {
                   return (
                     <div key={index} className="last-post" ref={ref}>
                       <PostPreview post={post} />
