@@ -26,7 +26,7 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['infinite-scroll'],
     async ({ pageParam = 1 }) => {
-      const res = await axios.post('http://localhost:3000/api/getPosts', pageParam)
+      const res = await axios.post('https://itemslist.vercel.app/api/getPosts', pageParam)
       return res.data.body
     },
     {

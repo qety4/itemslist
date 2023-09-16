@@ -1,4 +1,4 @@
-import { Post } from "@/types/types";
+import { Post } from "@/libs/types/list-types";
 
 export function filterPosts(posts:Post[],searchValue:string):Post[]{
     const searchValueParam =searchValue.replace(/\s+/g, "").toLowerCase()

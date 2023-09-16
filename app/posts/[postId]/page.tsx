@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation'
 
 async function Post({ params }: { params: { postId: string } }) {
   const id = params.postId
-  const res = await axios.post('http://localhost:3000/api/getPost', id)
+  const res = await axios.post('https://itemslist.vercel.app/api/getPost', id)
   const post = res.data.body
 
   return post ? (

@@ -7,7 +7,7 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 export async function submitSearch(formData:FormData,router:AppRouterInstance) {
     const searchInputValue = formData.get('searchInput')
     const searchQuery:string = `${searchInputValue}`.replace(/\s+/g, "")
-
+    
     if(searchQuery !== '' && searchQuery!== null){
         addQuery(searchQuery,router)
     }
