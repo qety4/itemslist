@@ -17,7 +17,6 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
   const searchParams = useSearchParams()
   const search = searchParams.get('q') as string
 
-  console.log('search query', search)
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
     threshold: 0.1,
@@ -51,7 +50,6 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
   )
 
   if (entry?.isIntersecting) fetchNextPage()
-  console.log('data fetched', data)
   const posts: Post[] = data?.pages.flatMap(post => post) ?? initialPosts
   const isNewPosts = (data?.pages.at(data.pages?.length - 1)?.length === 0)
 
@@ -60,7 +58,6 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
     :
     posts
 
-  console.log('posts', posts)
   return posts.at(0) && (
     <main>
 

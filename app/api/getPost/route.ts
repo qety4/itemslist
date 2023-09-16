@@ -3,7 +3,6 @@ import prisma from "@/libs/prisma/client"
 export async function POST(req:Request,res:Response){
     try{
         const postIdToDisplay = await req.json()
-        console.log(postIdToDisplay)
         const post = await prisma.post.findUnique({
             where:{
                 id:postIdToDisplay

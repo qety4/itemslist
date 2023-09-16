@@ -8,7 +8,6 @@ import Link from 'next/link'
 
 function Nav() {
   const segment = useSelectedLayoutSegment()
-  console.log('segment', segment)
   return (
     segment &&
     <div className='nav'>

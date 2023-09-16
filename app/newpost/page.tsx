@@ -24,7 +24,6 @@ function NewPost() {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         const { name, value } = event.target
         setFormFields({ ...formFields, [name]: value })
-        console.log(formFields)
     }
 
     const ITEMS: categorySelectProps = {
@@ -45,7 +44,7 @@ function NewPost() {
             const target = event.target as HTMLFormElement
             event.preventDefault()
             PostValidator.parse(formFields)
-            await axios.post('http://localhost:3000/api/createPost', formFields)
+            // await axios.post('http://localhost:3000/api/createPost', formFields)
             setFormFields(defaultFormFields)
             target.reset()
             setPostAdded(true)

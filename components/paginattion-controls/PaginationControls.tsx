@@ -9,7 +9,6 @@ function PaginationControls() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const page = searchParams.get('page') || '1'
-  console.log('page paginaton',page)
   return (
     <div className='pagination_buttons'>
         <button 
