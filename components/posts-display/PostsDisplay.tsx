@@ -26,7 +26,7 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['infinite-scroll'],
     async ({ pageParam = 1 }) => {
-      const res= await axios.post(`${process.env.BASE_URL}/api/getPosts`, '1')
+      const res= await axios.post('/api/getPosts', '1')
       return res.data.body
     },
     {
