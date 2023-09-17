@@ -1,11 +1,11 @@
 import React from 'react'
-import { ClipLoader } from 'react-spinners'
+import { PuffLoader } from 'react-spinners'
 import './loader.styles.scss'
 
 function Loader() {
     return (
         <div className='loader'>
-            <ClipLoader />
+            <PuffLoader/>
         </div>
     )
 }

@@ -3,13 +3,14 @@
 import { Post } from '@/libs/types/list-types'
 import axios from 'axios'
 import { useIntersection } from '@mantine/hooks'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useMemo, useEffect } from 'react'
 import PostPreview from '../post-preview/PostPreview'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { notFound, useSearchParams } from 'next/navigation'
 import { filterPosts } from '@/utils/searchFilter'
 import Link from 'next/link'
 import './postsDisplay.scss'
+import Loader from '../Loader/Loader'
 
 function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
 
@@ -19,14 +20,13 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
 
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
-    threshold: 0.1,
+    threshold: 0.3,
   })
-
 
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['infinite-scroll'],
     async ({ pageParam = 1 }) => {
-      const res= await axios.post('/api/getPosts', pageParam)
+      const res = await axios.post('/api/getPosts', pageParam)
       return res.data.body
     },
     {
@@ -49,18 +49,20 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
     }
   )
 
-  if (entry?.isIntersecting) fetchNextPage()
+  if (entry?.isIntersecting)
+    fetchNextPage()
+
   const posts: Post[] = data?.pages.flatMap(post => post) ?? initialPosts
 
-  const filteredPosts: Post[] = search ?
+  const filteredPosts: Post[] = useMemo(() => (search ?
     filterPosts(posts, search)
     :
     posts
+  ), [posts, search])
 
-  return posts.at(0) && (
-    <main>
-
-      {search ?
+  return posts.at(0) && search ?
+    (
+      <>
         <div className='all-posts'>
           <div className='all-posts__title'>
             <h1>
@@ -69,9 +71,9 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
           </div>
           {
             filteredPosts?.map((post, index) => {
-              if (index == filteredPosts.length - 1 && !(data?.pages[data.pages.length - 1].length === 0)) {
+              if (index == filteredPosts.length - 1 && !(data?.pages[data.pages.length - 1]?.length === 0)) {
                 return (
-                  <div key={index} className="last-post" ref={ ref }>
+                  <div key={index} className="last-post" ref={ref}>
                     <PostPreview post={post} />
                   </div>
                 )
@@ -87,7 +89,18 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
             <Link className='to-all-products__btn' href='/posts'>TO ALL PRODUCTS</Link>
           </div>
         </div>
-        :
+        {isFetchingNextPage ?
+          <div>
+            <Loader />
+          </div>
+          :
+          null
+        }
+      </>
+    )
+    :
+    (
+      <>
         <div className='all-posts'>
           <div className='all-posts__title'>
             <h1>
@@ -97,7 +110,7 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
           <div className='all-posts__posts'>
             {
               filteredPosts?.map((post, index) => {
-                if (index === filteredPosts.length - 1 && !(data?.pages[data.pages.length - 1].length === 0)) {
+                if (index === filteredPosts.length - 1 && !(data?.pages[data.pages.length - 1]?.length === 0)) {
                   return (
                     <div key={index} className="last-post" ref={ref}>
                       <PostPreview post={post} />
@@ -113,10 +126,15 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
             }
           </div>
         </div>
-      }
-
-    </main>
-  )
+        {isFetchingNextPage ?
+          <div>
+            <Loader />
+          </div>
+          :
+          null
+        }
+      </>
+    )
 }
 
 export default PostsDisplay
