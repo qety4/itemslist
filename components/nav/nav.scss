@@ -4,7 +4,7 @@
     z-index: 100;
     .nav__logo {
 
-        font-size: clamp(2.3rem,3vw,300%);
+        font-size: clamp(2.3em,3vw,300%);
         color: rgba(20, 20, 20, 0.899);
         font-family: 'ADLaM Display';
         font-weight: 400;
@@ -23,10 +23,10 @@
             display: none;
         }
         #search__form__input {
-            padding: 0.4rem 0 0.4rem 0.7rem;
+            padding: 0.4em 0 0.4em 0.7em;
             border-radius: 0.3rem;
             border: 0.1px solid rgb(0, 0, 0);
-            font-size: 1.03rem;
+            font-size: clamp(0.83em,3vw,1.1em);
           
         }
 
