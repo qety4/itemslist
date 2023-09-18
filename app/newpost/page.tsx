@@ -63,11 +63,10 @@ function NewPost() {
 
 
     return postAdded ?
-
         (
-            <div>
+            <div className='new-post'>
                 <p>Post Succesfully Added ! <br />
-                {`you won't see it, because i don't want anyone to add anything bad`}
+                    {`you won't see it, because i don't want anyone to add anything bad`}
                 </p>
             </div>
         )
