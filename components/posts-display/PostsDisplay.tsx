@@ -52,14 +52,12 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
   if (entry?.isIntersecting)
     fetchNextPage()
 
-  const posts: Post[] = data?.pages.flatMap(post => post) ?? initialPosts
-
-  const filteredPosts: Post[] = useMemo(() => (search ?
-    filterPosts(posts, search)
-    :
-    posts
-  ), [posts, search])
-
+  const dataPosts = data?.pages.flatMap(post => post) ?? initialPosts
+  const posts: Post[] = useMemo(() => (dataPosts), [dataPosts])
+  const filteredPosts: Post[] = search ?
+    filterPosts(posts, search) :
+    []
+  
   return posts.at(0) && search ?
     (
       <>
@@ -109,7 +107,7 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
           </div>
           <div className='all-posts__posts'>
             {
-              filteredPosts?.map((post, index) => {
+              posts?.map((post, index) => {
                 if (index === filteredPosts.length - 1 && !(data?.pages[data.pages.length - 1]?.length === 0)) {
                   return (
                     <div key={index} className="last-post" ref={ref}>
