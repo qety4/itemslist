@@ -3,11 +3,14 @@ import './globals.scss'
 import type { Metadata } from 'next'
 import Providers from '@/components/Providers'
 import Nav from '@/components/nav/Nav'
+import { ADLaM_Display} from '@next/font/google'
+
 
 export const metadata: Metadata = {
   title: 'itemslist',
   description: `craigslist 'clone'`,
 }
+
 
 export default function RootLayout({
   children,

@@ -108,7 +108,7 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
           <div className='all-posts__posts'>
             {
               posts?.map((post, index) => {
-                if (index === filteredPosts.length - 1 && !(data?.pages[data.pages.length - 1]?.length === 0)) {
+                if (index === posts.length - 1 && !(data?.pages[data.pages.length - 1]?.length === 0)) {
                   return (
                     <div key={index} className="last-post" ref={ref}>
                       <PostPreview post={post} />

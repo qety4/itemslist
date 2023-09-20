@@ -2,6 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Barlow:wght@300;400;500&family=Nunito+Sans:opsz@6..12&family=Work+Sans:wght@200;400;500&display=swap');
 
 
+body{
+  font-family: 'ADLaM Display' 'Barlow' 'Nunito Sans' 'Work Sans';
+}
 *{
   margin:0;
   padding:0;
@@ -10,7 +13,8 @@ a{
   text-decoration: none;
 }
 body{
-  background-color: rgb(255, 255, 254)
+  background-color: rgb(255, 255, 254);
+
 }
 
 
