@@ -3,7 +3,8 @@ import { Post } from '@/libs/types/list-types'
 import { useRouter } from 'next/navigation';
 import './postPreview.scss'
 
-function PostPreview({ post }: { post: Post }) {
+const PostPreview = ({ post }: { post: Post }) =>{
+
   const router = useRouter()
   const toPost = () => {
     router.push(`/posts/${post.id}`)
@@ -27,5 +28,6 @@ function PostPreview({ post }: { post: Post }) {
     </div>
   )
 }
+
 
 export default PostPreview

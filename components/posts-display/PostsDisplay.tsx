@@ -6,7 +6,7 @@ import { useIntersection } from '@mantine/hooks'
 import React, { useRef, useMemo, useEffect } from 'react'
 import PostPreview from '../post-preview/PostPreview'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { notFound, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { filterPosts } from '@/utils/searchFilter'
 import Link from 'next/link'
 import './postsDisplay.scss'
@@ -49,15 +49,20 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
     }
   )
 
-  if (entry?.isIntersecting)
-    fetchNextPage()
+
+  useEffect(() => {
+    if (entry?.isIntersecting) {
+      fetchNextPage()
+    }
+
+  }, [entry, fetchNextPage])
 
   const dataPosts = data?.pages.flatMap(post => post) ?? initialPosts
   const posts: Post[] = useMemo(() => (dataPosts), [dataPosts])
   const filteredPosts: Post[] = search ?
     filterPosts(posts, search) :
     []
-  
+
   return posts.at(0) && search ?
     (
       <>
@@ -69,7 +74,7 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
           </div>
           {
             filteredPosts?.map((post, index) => {
-              if (index == filteredPosts.length - 1 && !(data?.pages[data.pages.length - 1]?.length === 0)) {
+              if (index == filteredPosts.length - 1) {
                 return (
                   <div key={index} className="last-post" ref={ref}>
                     <PostPreview post={post} />
@@ -108,7 +113,7 @@ function PostsDisplay({ initialPosts }: { initialPosts: Post[] }) {
           <div className='all-posts__posts'>
             {
               posts?.map((post, index) => {
-                if (index === posts.length - 1 && !(data?.pages[data.pages.length - 1]?.length === 0)) {
+                if (index === posts.length - 1) {
                   return (
                     <div key={index} className="last-post" ref={ref}>
                       <PostPreview post={post} />
